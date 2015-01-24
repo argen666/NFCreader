@@ -53,6 +53,22 @@ TextView textView1;
         pg = (ProgressBar) findViewById(R.id.progressBar);
         // enable foreground dispatch
          mAdapter = NfcAdapter.getDefaultAdapter(this);
+
+        if (mAdapter == null) {
+            // Stop here, we definitely need NFC
+            Toast.makeText(this, "This device doesn't support NFC.", Toast.LENGTH_LONG).show();
+            finish();
+            return;
+
+        }
+
+        if (!mAdapter.isEnabled()) {
+            textView1.setText("Please enable NFC");
+            Toast.makeText(this, "NFC is disabled.", Toast.LENGTH_LONG).show();
+        } else {
+            textView1.setText("Жду карту");
+        }
+
          pendingIntent = PendingIntent.getActivity(
                 this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
 

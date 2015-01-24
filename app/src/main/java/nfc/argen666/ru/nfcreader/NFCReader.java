@@ -119,14 +119,14 @@ class NFCReader extends AsyncTask<Object, Void, String> {
                         metaInfo += String.valueOf(Integer.parseInt(fcode,16));
                         metaInfo += String.valueOf(Integer.parseInt(uid,16));
                     } else {
-                        metaInfo += "Sector " + 0 + ": Verified failure\n";
+                        metaInfo = "Sector " + 0 + ": Verified failure\n";
                     }
                 }
 
                 //textView1.setText(metaInfo);
 
             } catch (Exception e) {
-                //textView1.setText("Lost connection!");
+                metaInfo ="Lost connection!";
                 e.printStackTrace();
             }
         }
