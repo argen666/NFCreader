@@ -32,10 +32,10 @@ class NFCReader extends AsyncTask<Object, Void, String> {
 
     @Override
     protected String doInBackground(Object... params) {
-        Intent intent = (Intent) params[0];
+        Tag tag = (Tag) params[0];
         Boolean full = (Boolean) params[1];
         Log.i(LOG_TAG, "resolving intent");
-        Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+        //Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
         String metaInfo = "";
         if (tag != null) {
             Log.i(LOG_TAG, "found a tag");

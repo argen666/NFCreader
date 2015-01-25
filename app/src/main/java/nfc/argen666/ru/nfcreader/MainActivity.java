@@ -96,9 +96,12 @@ TextView textView1;
         if (NfcAdapter.ACTION_TECH_DISCOVERED.equals(intent.getAction())){
         //textView1.setText("Please Wait...");
           //  Toast.makeText(getApplicationContext(),"Card Detected",Toast.LENGTH_SHORT).show();
+
+            Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
         NFCReader reader = new NFCReader();
+
         reader.setPg(pg);
-        reader.execute(intent, mode);
+        reader.execute(tag, mode);
             try {
                 data =reader.get();
             } catch (InterruptedException e) {
@@ -152,7 +155,7 @@ TextView textView1;
                    textView1.setTextSize(20);
                     FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, Gravity.TOP);
                     textView1.setLayoutParams(params);
-                    textView1.setText("");
+                    textView1.setText("Жду карту");
                 }
                 else {
                     mode=false;
@@ -160,7 +163,7 @@ TextView textView1;
                     textView1.setTextSize(60);
                     FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
                textView1.setLayoutParams(params);
-                    textView1.setText("");
+                    textView1.setText("Жду карту");
                 }
             }
 
@@ -172,6 +175,7 @@ TextView textView1;
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putString("uid", data);
+        outState.putBoolean("mode", mode);
         super.onSaveInstanceState(outState);
 
         Log.d(TAG, "onSaveInstanceState");
@@ -180,7 +184,20 @@ TextView textView1;
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
 
         data = savedInstanceState.getString("uid");
+        mode = savedInstanceState.getBoolean("mode");
         textView1.setText(data=="" ? "Жду карту" : data);
+        if (!mode)
+        {
+            textView1.setTextSize(60);
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
+            textView1.setLayoutParams(params);
+        }
+        else {
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT, Gravity.TOP);
+
+            textView1.setLayoutParams(params);
+            textView1.setTextSize(20);
+        }
         super.onRestoreInstanceState(savedInstanceState);
         Log.d(TAG, "onRestoreInstanceState");
     }
