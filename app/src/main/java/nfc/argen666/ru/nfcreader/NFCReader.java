@@ -3,7 +3,9 @@ package nfc.argen666.ru.nfcreader;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
+import android.nfc.tech.IsoDep;
 import android.nfc.tech.MifareClassic;
+import android.nfc.tech.NfcA;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
@@ -117,7 +119,8 @@ class NFCReader extends AsyncTask<Object, Void, String> {
                         uid = uid.substring(2, 4)+uid.substring(0, 2);
                         metaInfo="";
                         metaInfo += String.valueOf(Integer.parseInt(fcode,16));
-                        metaInfo += String.valueOf(Integer.parseInt(uid,16));
+                        String uuid=String.valueOf(Integer.parseInt(uid,16));
+                        metaInfo += uuid.length()<5 ? "0"+uuid : uuid ;
                     } else {
                         metaInfo = "Sector " + 0 + ": Verified failure\n";
                     }
